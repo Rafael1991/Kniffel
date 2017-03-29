@@ -1,10 +1,12 @@
 import java.util.*;
 
+// Klasse enthält die Methoden wuerfeln, print_Array, auswertung und zug
+
 public class Spieler {
 		
 		protected int punkte = 0;
 		protected String name = null;	// null meint die String variable zeigt auf nichts
-		protected int[] hand = new int[5];
+		protected int[] hand = new int[5];	// mit Hand sollen die Würfel gespeichert und "ausgewertet werden
 		protected Scanner scanner = new Scanner(System.in);
 		
 	
@@ -18,7 +20,7 @@ public class Spieler {
 	
 	public static int wuerfeln() {		// gibt Zahlen zwischen 1-6 zurueck
 		Random chaos = new Random();
-		return chaos.nextInt(7-1)+1;
+		return chaos.nextInt(7-1)+1;	//(7-1)+1 weil man eine Zahl von 1 bis 6 würfeln will, ohne +1 wäre es von 0 bis 6
 	}	
 	
 	public void auswertung(int[] myArray) {		// myArray ist die Bezeichnung fuer das wahre Argument
@@ -41,7 +43,7 @@ public class Spieler {
 		int Chance;
 		*/
 			//Zum erkennen von Paaren
-			for(int i =0; i<myArray.length; i++) {		// h�lt Elemente im Array fest, falls myArray an Stelle i=j dann ++, sonst nicht
+			for(int i =0; i<myArray.length; i++) {		// hält Elemente im Array fest, falls myArray an Stelle i=j dann ++, sonst nicht
 					
 				for(int j=0; j<myArray.length; j++) {		
 						
@@ -57,16 +59,18 @@ public class Spieler {
 
 			
 			// zum erkennen der grossen Strasse
-			if(myArray[0] == 1 && myArray[1] == 2 && myArray[2] == 3 && myArray[3] == 4 && myArray[4] == 5 ||
-			   myArray[1] == 2 && myArray[2] == 3 && myArray[3] == 4 && myArray[4] == 5 && myArray[5] == 6)
-				{
+			if((myArray[0] < myArray[1]) && (myArray[1] < myArray[2]) && (myArray[2] < myArray[3]) && (myArray[3] < myArray[4]) && (myArray[4] < myArray[5]))  
+				/*(myArray[0] == 1 && myArray[1] == 2 && myArray[2] == 3 && myArray[3] == 4 && myArray[4] == 5 ||
+				   myArray[1] == 2 && myArray[2] == 3 && myArray[3] == 4 && myArray[4] == 5 && myArray[5] == 6)*/
+			{
 					System.out.println("Du hast eine grosse Strasse gewuerfelt und erhaelst 40 Punkte.");
 					punkte+=40;
 				}
 			//zum erkennen der kleinen Strasse		
-			if(myArray[0] == 1 && myArray[1] == 2 && myArray[2] == 3 && myArray[3] == 4 ||
+			 if(myArray[0] == 1 && myArray[1] == 2 && myArray[2] == 3 && myArray[3] == 4 ||
 			   myArray[1] == 2 && myArray[2] == 3 && myArray[3] == 4 && myArray[4] == 5 ||
 			   myArray[2] == 3 && myArray[3] == 4 && myArray[4] == 5 && myArray[5] == 6)
+			
 			/*(myArray[0] < myArray[1] && myArray[1] < myArray[2] && myArray[2] < myArray[3] || 
 			   myArray[1] < myArray[2] && myArray[2] < myArray[3] && myArray[3] < myArray[4] ||
 			   myArray[0] < myArray[1] && myArray[1] < myArray[2] && myArray[2] < myArray[3] && myArray[3] == myArray[4] || 
@@ -85,7 +89,7 @@ public class Spieler {
 public int[] zug() {
 			
 			 int wuerfel = 5;	// alle 5 wuerfel werden gewuerfelt
-			 int[] wurf = new int[5];	//Speicherstellen fuer die Werte der Wuerfel
+			 int[] wurf = new int[5];	//Speicherstellen fuer die Werte der Wuerfel innerhalb dieser Methode
 			 int anzahl_Wuerfe = 3;
 			 int zweiter_Wurf;
 			 int temp=0;
@@ -110,21 +114,20 @@ public int[] zug() {
 									 if(answer.equals("J") || answer.equals("j")) {
 										
 										 System.out.println("\n\tWie viele moechtest du aendern?");
-										 int aenderung = scanner.nextInt();
+										 int aenderung = scanner.nextInt();		//liest  wieviele Würfel geändert werden sollen
 										 scanner.nextLine();
 										 if(aenderung<=0 || aenderung>=6){
 												System.out.println("ungueltige Zahl, Bitte nur Werte zwischen 1 und 5 angeben.");
 												continue;
-											}
-										 
-											 for(int h=0; h<aenderung; h++) {
+										 }
+											 for(int h=0; h<aenderung; h++) {	//läuft solange bis die Zahl von aenderung erreicht ist
 												 System.out.println("\n\tWelche Wuerfel von sollen erneut gewuerfelt werden ?");
-												 zweiter_Wurf = scanner.nextInt();
+												 zweiter_Wurf = scanner.nextInt();		// 
 												 wurf[zweiter_Wurf-1] = wuerfeln();
 												 scanner.nextLine();
-													 if(temp==zweiter_Wurf) {
+													 if(temp==zweiter_Wurf) {	// vergleicht temporäre Variable mit zweiter_Wurf
 														 System.out.println("\n\tDu darfst nicht zweimal die gleiche Zahl waehlen");
-														 h= h-1; 
+														 h= h-1; 	// krehrt einen Schritt zurück zur for-Schleife
 														continue;
 													 }
 													 temp=zweiter_Wurf;
@@ -138,9 +141,8 @@ public int[] zug() {
 						
 							}
 							
-							Arrays.sort(wurf);
-							return wurf;	
+							Arrays.sort(wurf);	//sortiert gewürfeltes Ergebnis
+							return wurf;		//druckt gewürfeltes Ergebnis
 				}
 	
-		
 }
